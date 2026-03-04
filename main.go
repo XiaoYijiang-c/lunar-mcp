@@ -20,6 +20,16 @@ func main() {
 	registry.Register(tools.AuspiciousDateTool)
 	registry.Register(tools.DailyOmenTool)
 	registry.Register(tools.ZodiacBaziTool)
+	registry.Register(tools.SolarCalendarTool)
+	registry.Register(tools.MonthCalendarTool)
+	registry.Register(tools.YearCalendarTool)
+	registry.Register(tools.EightCharFullTool)
+	registry.Register(tools.DailyFortuneTool)
+	registry.Register(tools.TimeBaziTool)
+	registry.Register(tools.DestinyAnalysisTool)
+	registry.Register(tools.TaoHolidayTool)
+	registry.Register(tools.BuddhistHolidayTool)
+	registry.Register(tools.LunarCalendarTool)
 
 	// Create handler
 	handler := protocol.NewHandler()
