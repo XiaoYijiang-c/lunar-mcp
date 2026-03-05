@@ -1,282 +1,156 @@
-# lunar-mcp 功能规范
+# lunar-mcp 功能规范 (完整版)
 
-> 当前版本: v1.0.0  
+> 当前版本: v1.1.0  
 > 最后更新: 2026-03-05
 
-## 1. 项目概述
+## 项目概述
 
-**lunar-mcp** 是一个基于 [lunar-go](https://github.com/6tail/lunar-go) 实现的 MCP (Model Context Protocol) 服务器，为 AI Agent 提供中国农历、黄历、八字等传统日历能力。
+**lunar-mcp** 是基于 [lunar-go](https://github.com/6tail/lunar-go) 实现的 MCP 服务器。
 
-**lunar-go 库共有 233+ 个函数**，本项目目前实现了部分核心功能。
-
----
-
-## 2. 功能覆盖矩阵
-
-### 2.1 已实现功能 ✅
-
-| 工具名 | 功能描述 | 状态 | 优先级 |
-|--------|---------|------|--------|
-| `lunar_date` | 农历日期查询 | ✅ 已完成 | P0 |
-| `zodiac_bazi` | 八字计算 | ✅ 已完成 | P0 |
-| `solar_terms` | 节气查询 | ✅ 已完成 | P0 |
-| `festivals` | 节日查询 | ✅ 已完成 | P0 |
-| `auspicious_date` | 吉日查询 | ✅ 已完成 | P0 |
-| `daily_omen` | 每日宜忌 | ✅ 已完成 | P0 |
-
-### 2.2 待实现功能 📋
-
-#### P1 - 高优先级
-
-| 工具名 | 功能描述 | 说明 |
-|--------|---------|------|
-| `solar_calendar` | 公历信息 | 星座、星期、儒略日 |
-| `lunar_detail` | 农历详细信息 | 年月日、闰月、法定节假日 |
-| `month_calendar` | 月历 | 指定月份的完整日历 |
-| `year_calendar` | 年历 | 指定年份的日历 |
-
-#### P2 - 中优先级
-
-| 工具名 | 功能描述 | 说明 |
-|--------|---------|------|
-| `eight_char_full` | 完整八字 | 包含五行、十神、纳音 |
-| `destiny_analysis` | 命理分析 | 五行强弱、用神分析 |
-| `daily_fortune` | 每日运势 | 喜神、福神、财神方位 |
-| `time_bazi` | 时辰八字 | 指定时辰的八字 |
-
-#### P3 - 低优先级
-
-| 工具名 | 功能描述 | 说明 |
-|--------|---------|------|
-| `solar_terms_detail` | 节气详情 | 交接时间、物候 |
-| `tao_holiday` | 道历 | 道教节日 |
-| `buddhist_holiday` | 佛历 | 佛教节日 |
-| `lunar_calendar` | 农历历书 | 完整的黄历信息 |
-| `yi_jing` | 易经占卜 | 六十四卦 |
+**lunar-go 库共有 233+ 个函数**，本项目目前实现了 16 个工具，覆盖部分核心功能。
 
 ---
 
-## 3. 详细功能说明
+## 功能覆盖
 
-### 3.1 已实现功能详情
+### 已实现 ✅ (16个工具)
 
-#### lunar_date - 农历日期查询
+| # | 工具名 | 功能描述 | 状态 |
+|---|--------|---------|------|
+| 1 | `lunar_date` | 农历日期查询 | ✅ |
+| 2 | `zodiac_bazi` | 八字计算 | ✅ |
+| 3 | `solar_terms` | 节气查询 | ✅ |
+| 4 | `festivals` | 节日查询 | ✅ |
+| 5 | `auspicious_date` | 吉日查询 | ✅ |
+| 6 | `daily_omen` | 每日宜忌 | ✅ |
+| 7 | `solar_calendar` | 公历详情 | ✅ |
+| 8 | `month_calendar` | 月历 | ✅ |
+| 9 | `year_calendar` | 年历 | ✅ |
+| 10 | `eight_char_full` | 完整八字 | ✅ |
+| 11 | `destiny_analysis` | 命理分析 | ✅ |
+| 12 | `daily_fortune` | 每日运势 | ✅ |
+| 13 | `time_bazi` | 时辰八字 | ✅ |
+| 14 | `tao_holiday` | 道历 | ✅ |
+| 15 | `buddhist_holiday` | 佛历 | ✅ |
+| 16 | `lunar_calendar` | 完整黄历 | ✅ |
 
-```json
-{
-  "name": "lunar_date",
-  "description": "获取指定公历日期的农历信息",
-  "params": {
-    "year": "公历年份",
-    "month": "公历月份", 
-    "day": "公历日期"
-  }
-}
-```
+### 待实现功能 📋
 
-**返回值**:
-- `lunar`: 完整农历日期字符串
-- `solar`: 公历日期字符串
-- `weekday`: 星期几 (0-6)
-- `animal`: 生肖
+#### 高优先级
 
----
+| 功能 | 说明 |
+|------|------|
+| 日期推算 | Next/Prev 方法，支持日期偏移 |
+| 日期范围查询 | 批量查询多天 |
+| 农历转公历 | 反向查询 |
+| 吉时查询 | 每日吉时 |
 
-#### zodiac_bazi - 八字计算
+#### 中优先级
 
-```json
-{
-  "name": "zodiac_bazi",
-  "description": "获取八字信息",
-  "params": {
-    "year": "公历年份",
-    "month": "公历月份",
-    "day": "公历日期",
-    "hour": "时辰 (0-23，可选)"
-  }
-}
-```
+| 功能 | 说明 |
+|------|------|
+| 择日 | 根据目的选择吉日 |
+| 合婚 | 两人八字合婚 |
+| 起名 | 根据八字起名 |
+| 开业吉日 | 开业吉日查询 |
 
-**返回值**:
-- `bazi`: 四柱八字 [年, 月, 日, 时]
-- `nayin`: 纳音五行
-- `animal`: 生肖
-- `fullBazi`: 完整八字字符串
+#### 低优先级
 
----
-
-#### solar_terms - 节气查询
-
-```json
-{
-  "name": "solar_terms",
-  "description": "获取指定日期的节气信息",
-  "params": {
-    "year": "公历年份",
-    "month": "公历月份",
-    "day": "公历日期"
-  }
-}
-```
-
-**返回值**:
-- `currentJie`: 当前节气
-- `currentJieQi`: 当前节或气
-- `jieQiList`: 节气列表
+| 功能 | 说明 |
+|------|------|
+| 胎神方位 | 每日胎神位置 |
+| 易经卦象 | 六十四卦 |
+| 九星飞宫 | 玄空飞星 |
+| 建除十二值星 | 每日星宿 |
 
 ---
 
-#### festivals - 节日查询
+## lunar-go 函数映射详情
 
-```json
-{
-  "name": "festivals",
-  "description": "获取指定日期的节日信息",
-  "params": {
-    "year": "公历年份",
-    "month": "公历月份",
-    "day": "公历日期"
-  }
-}
-```
+### 已使用
 
-**返回值**:
-- `solarFestivals`: 公历节日
-- `lunarFestivals`: 农历节日
-
----
-
-#### auspicious_date - 吉日查询
-
-```json
-{
-  "name": "auspicious_date",
-  "description": "查询指定月份的吉日",
-  "params": {
-    "year": "公历年份",
-    "month": "公历月份",
-    "type": "类型 (嫁娶/搬家/开业/动土)"
-  }
-}
-```
-
-**返回值**:
-- `results`: 吉日列表
-
----
-
-#### daily_omen - 每日宜忌
-
-```json
-{
-  "name": "daily_omen",
-  "description": "获取每日宜忌",
-  "params": {
-    "year": "公历年份",
-    "month": "公历月份",
-    "day": "公历日期"
-  }
-}
-```
-
-**返回值**:
-- `auspicious`: 宜做的事情
-- `inauspicious`: 忌做的事情
-- `chong`: 冲煞信息
-
----
-
-## 4. lunar-go 函数映射
-
-### 4.1 已映射
-
-| MCP 工具 | 使用的 lunar-go 函数 |
-|---------|---------------------|
+| 工具 | 使用的函数 |
+|------|-----------|
 | lunar_date | GetAnimal, ToFullString, GetWeek |
 | zodiac_bazi | GetBaZi, GetBaZiNaYin |
 | solar_terms | GetCurrentJie, GetCurrentJieQi |
 | festivals | GetFestivals |
 | auspicious_date | GetDayYi, GetDayJi |
 | daily_omen | GetDayYi, GetDayJi, GetDayLu, GetChong |
+| solar_calendar | GetXingZuo, GetJulianDay, IsLeapYear |
+| month_calendar | GetCurrentJie |
+| eight_char_full | GetBaZi, GetBaZiNaYin, GetBaZiWuXing |
+| destiny_analysis | GetBaZiWuXing |
+| daily_fortune | GetDayPositionXi, GetDayPositionFu, GetDayPositionCai |
+| time_bazi | GetTime, GetTimeGan, GetTimeZhi |
+| tao_holiday | GetTao |
+| buddhist_holiday | GetFoto |
+| lunar_calendar | GetXiu, GetWuHou, GetZheng, GetYueXiang |
 
-### 4.2 未映射（可扩展）
+### 未使用（可扩展）
 
-**八字相关 (GetBaZi*)**:
-- GetBaZiShiShenGan, GetBaZiShiShenZhi
-- GetBaZiWuXing
-- GetBaZiShiShenYearZhi/MonthZhi/DayZhi/TimeZhi
+```go
+// 八字增强
+GetBaZiShiShenGan, GetBaZiShiShenZhi
+GetBaZiShiShenYearZhi, GetBaZiShiShenMonthZhi
 
-**五行纳音**:
-- GetDayNaYin, GetTimeNaYin, GetYearNaYin, GetMonthNaYin
+// 神煞
+GetDayTianShenLuck, GetDayTianShenType
+GetTimeTianShen, GetTimeTianShenLuck
 
-**神煞方位**:
-- GetDayPositionXi, GetDayPositionFu, GetDayPositionCai
-- GetDayPositionTaiSui
-- GetDayTianShen, GetTimeTianShen
+// 方位
+GetDayPositionTaiSui, GetDayPositionYangGui, GetDayPositionYinGui
 
-**其他**:
-- GetShiChen (时辰)
-- GetJieQiTable (节气表)
-- GetNext/Prev 方法 (日期推算)
+// 彭祖百忌
+GetPengZu, GetDayLu
 
----
+// 九星
+GetDayNineStar, GetYearNineStar
 
-## 5. 扩展计划
+// 农历月份
+GetMonth, GetMonthInGanZhi, GetMonthNaYin
 
-### 5.1 v1.1.0 - 完善核心功能
-
-- [ ] 添加更多吉日类型（订盟、纳采、入学、搬家等）
-- [ ] 支持农历转公历
-- [ ] 支持日期范围查询
-
-### 5.2 v1.2.0 - 增强八字
-
-- [ ] 时辰八字（含时辰名称）
-- [ ] 十神分析
-- [ ] 五行强弱分析
-
-### 5.3 v1.3.0 - 完整历书
-
-- [ ] 月历视图
-- [ ] 年历视图
-- [ ] 道历、佛历
-
-### 5.4 v2.0.0 - 高级功能
-
-- [ ] 命理分析
-- [ ] 合婚查询
-- [ ] 易经占卜
+// 其他
+GetJieQiTable, GetShiChen
+```
 
 ---
 
-## 6. 技术规范
+## 版本规划
 
-### 6.1 MCP 协议
+### v1.0 (已完成)
+- 6 个基础工具
 
-- JSON-RPC 2.0
-- 端口: 8080 (可配置)
-- 端点: /rpc
+### v1.1 (已完成)
+- 10 个增强工具
+- 共 16 个工具
 
-### 6.2 依赖
+### v1.2 (规划中)
+- 日期推算
+- 农历转公历
+- 吉时查询
 
-- Go 1.21+
-- lunar-go v1.4.6
+### v1.3 (规划中)
+- 择日系统
+- 合婚功能
+- 起名功能
 
-### 6.3 部署
-
-- Docker 支持
-- 无状态服务
+### v2.0 (规划中)
+- 易经占卜
+- 九星飞宫
+- 完整命理
 
 ---
 
-## 7. 验收标准
+## 验收标准
 
-- [x] MCP 协议三板斧正常
-- [x] 6 个工具函数返回正确结果
-- [x] Docker 镜像可构建
+- [x] MCP 协议正常
+- [x] 16 个工具可用
+- [x] Docker 支持
+- [x] GitHub 开源
 - [ ] 单元测试覆盖 > 80%
-- [ ] 文档完整度 100%
+- [ ] 文档完整
 
 ---
 
-*此文档使用 OpenSpec 规范管理*
+*本文档使用 OpenSpec 管理*
