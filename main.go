@@ -33,6 +33,9 @@ func main() {
 	registry.Register(tools.DateCalculatorTool)
 	registry.Register(tools.LunarToSolarTool)
 	registry.Register(tools.AuspiciousTimeTool)
+	registry.Register(tools.DateSelectorTool)
+	registry.Register(tools.MarriageCompatTool)
+	registry.Register(tools.NameGeneratorTool)
 
 	// Create handler
 	handler := protocol.NewHandler()
