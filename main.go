@@ -36,6 +36,8 @@ func main() {
 	registry.Register(tools.DateSelectorTool)
 	registry.Register(tools.MarriageCompatTool)
 	registry.Register(tools.NameGeneratorTool)
+	registry.Register(tools.IChingDivinationTool)
+	registry.Register(tools.NineStarFlyingTool)
 
 	// Create handler
 	handler := protocol.NewHandler()
