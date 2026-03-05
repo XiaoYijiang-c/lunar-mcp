@@ -2,6 +2,10 @@
 
 MCP Server for Chinese Calendar
 
+<a href="https://glama.ai/mcp/servers/@XiaoYijiang-c/lunar-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@XiaoYijiang-c/lunar-mcp/badge" alt="lunar-mcp MCP server" />
+</a>
+
 ## 简介
 
 基于 lunar-go 实现的 MCP 服务器，提供中国农历、八字、风水等传统日历能力给 AI Agent 使用。
