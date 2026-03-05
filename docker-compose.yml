@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  lunar-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: lunar-mcp:latest
+    container_name: lunar-mcp
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Optional: API documentation
+  # api-docs:
+  #   image: redocly/redoc
+  #   ports:
+  #     - "8081:80"
+  #   volumes:
+  #     - ./docs/openapi.yaml:/usr/share/nginx/html/openapi.yaml:ro
