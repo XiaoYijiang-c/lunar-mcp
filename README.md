@@ -1,14 +1,12 @@
 # lunar-mcp
 
-MCP Server for Chinese Calendar (农历日历 MCP 服务)
+MCP Server for Chinese Calendar
 
 ## 简介
 
-基于 [lunar-go](https://github.com/6tail/lunar-go) 实现的 Model Context Protocol (MCP) 服务器，提供中国农历、黄历、八字等传统日历能力给 AI Agent 使用。
+基于 lunar-go 实现的 MCP 服务器，提供中国农历、八字、风水等传统日历能力给 AI Agent 使用。
 
-**28 工具函数**，支持日期计算、八字分析、命理、风水等功能。
-
-## 功能概览
+## 功能
 
 | 分类 | 工具 |
 |------|------|
@@ -21,29 +19,20 @@ MCP Server for Chinese Calendar (农历日历 MCP 服务)
 
 ## 快速开始
 
-### Docker (推荐)
+### Docker
 
 ```bash
-# 直接运行
 docker run -d -p 8080:8080 ghcr.io/xiaoyijiang-c/lunar-mcp:latest
-
-# docker-compose
-docker-compose up -d
 ```
 
 ### 本地运行
 
 ```bash
-# 编译
 go build -o lunar-mcp .
-
-# 运行
 ./lunar-mcp
-
-# 默认端口 8080
 ```
 
-## API 示例
+## API
 
 ```bash
 # 健康检查
@@ -52,29 +41,14 @@ curl http://localhost:8080/health
 # 查询农历
 curl -X POST http://localhost:8080/rpc \
   -d '{"method":"tools/call","params":{"name":"lunar_date","arguments":{"year":2026,"month":3,"day":5}}}'
-
-# 八字分析
-curl -X POST http://localhost:8080/rpc \
-  -d '{"method":"tools/call","params":{"name":"zodiac_bazi","arguments":{"year":1990,"month":5,"day":15}}}'
-
-# 易经占卜
-curl -X POST http://localhost:8080/rpc \
-  -d '{"method":"tools/call","params":{"name":"iching_divination","arguments":{"question":"今日运势"}}}'
 ```
 
 ## 技术栈
 
-- Go 1.21+
+- Go
 - MCP Protocol (JSON-RPC 2.0)
-- lunar-go
 - Docker
 
-## 相关链接
+## License
 
-- GitHub: https://github.com/XiaoYijiang-c/lunar-mcp
-- awesome-mcp-servers: https://github.com/punkpeye/awesome-mcp-servers (PR #2747)
-- Docker Hub: ghcr.io/xiaoyijiang-c/lunar-mcp
-
-## 协议
-
-MIT License - see [LICENSE](LICENSE)
+MIT
