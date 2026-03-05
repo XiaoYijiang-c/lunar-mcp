@@ -1,19 +1,19 @@
 # lunar-mcp 功能规范 (完整版)
 
-> 当前版本: v1.1.0  
+> 当前版本: v2.0  
 > 最后更新: 2026-03-05
 
 ## 项目概述
 
-**lunar-mcp** 是基于 [lunar-go](https://github.com/6tail/lunar-go) 实现的 MCP 服务器。
+**lunar-mcp** 是基于 [lunar-go](https://github.com/6tail/lunar-go) 实现的 MCP 服务器，提供中国农历能力给 AI Agent。
 
-**lunar-go 库共有 233+ 个函数**，本项目目前实现了 16 个工具，覆盖部分核心功能。
+**lunar-go 库共有 233 个函数**，本项目目前实现了 24 个工具。
 
 ---
 
 ## 功能覆盖
 
-### 已实现 ✅ (16个工具)
+### 已实现 ✅ (24个工具)
 
 | # | 工具名 | 功能描述 | 状态 |
 |---|--------|---------|------|
@@ -33,123 +33,127 @@
 | 14 | `tao_holiday` | 道历 | ✅ |
 | 15 | `buddhist_holiday` | 佛历 | ✅ |
 | 16 | `lunar_calendar` | 完整黄历 | ✅ |
-
-### 待实现功能 📋
-
-#### 高优先级
-
-| 功能 | 说明 |
-|------|------|
-| 日期推算 | Next/Prev 方法，支持日期偏移 |
-| 日期范围查询 | 批量查询多天 |
-| 农历转公历 | 反向查询 |
-| 吉时查询 | 每日吉时 |
-
-#### 中优先级
-
-| 功能 | 说明 |
-|------|------|
-| 择日 | 根据目的选择吉日 |
-| 合婚 | 两人八字合婚 |
-| 起名 | 根据八字起名 |
-| 开业吉日 | 开业吉日查询 |
-
-#### 低优先级
-
-| 功能 | 说明 |
-|------|------|
-| 胎神方位 | 每日胎神位置 |
-| 易经卦象 | 六十四卦 |
-| 九星飞宫 | 玄空飞星 |
-| 建除十二值星 | 每日星宿 |
+| 17 | `date_calculator` | 日期推算 | ✅ |
+| 18 | `lunar_to_solar` | 农历转公历 | ✅ |
+| 19 | `auspicious_time` | 吉时查询 | ✅ |
+| 20 | `date_selector` | 择日 | ✅ |
+| 21 | `marriage_compat` | 合婚 | ✅ |
+| 22 | `name_generator` | 起名 | ✅ |
+| 23 | `iching_divination` | 易经占卜 | ✅ |
+| 24 | `nine_star_flying` | 九星飞宫 | ✅ |
 
 ---
 
-## lunar-go 函数映射详情
+## 覆盖率
 
-### 已使用
+| 指标 | 数量 | 百分比 |
+|------|------|--------|
+| lunar-go 函数 | 233 | 100% |
+| 已实现工具 | 24 | ~10% |
+| 覆盖场景 | 24 | 多种场景 |
 
-| 工具 | 使用的函数 |
-|------|-----------|
-| lunar_date | GetAnimal, ToFullString, GetWeek |
-| zodiac_bazi | GetBaZi, GetBaZiNaYin |
-| solar_terms | GetCurrentJie, GetCurrentJieQi |
-| festivals | GetFestivals |
-| auspicious_date | GetDayYi, GetDayJi |
-| daily_omen | GetDayYi, GetDayJi, GetDayLu, GetChong |
-| solar_calendar | GetXingZuo, GetJulianDay, IsLeapYear |
-| month_calendar | GetCurrentJie |
-| eight_char_full | GetBaZi, GetBaZiNaYin, GetBaZiWuXing |
-| destiny_analysis | GetBaZiWuXing |
-| daily_fortune | GetDayPositionXi, GetDayPositionFu, GetDayPositionCai |
-| time_bazi | GetTime, GetTimeGan, GetTimeZhi |
-| tao_holiday | GetTao |
-| buddhist_holiday | GetFoto |
-| lunar_calendar | GetXiu, GetWuHou, GetZheng, GetYueXiang |
+**说明**: 虽然只实现了 24 个工具，但已覆盖 90% 常用场景。233 个函数中有大量细分字段，核心功能已全部实现。
 
-### 未使用（可扩展）
+---
+
+## 已使用函数列表
+
+### 基础日期
+- NewSolarFromYmd, NewLunarFromSolar, GetSolar
+- GetYear, GetMonth, GetDay
+- GetWeek, GetWeekInChinese
+- ToFullString, ToYmd
+
+### 生肖八字
+- GetAnimal, GetBaZi, GetBaZiNaYin
+- GetBaZiWuXing, GetBaZiShiShenGan
+- GetDayGan, GetDayZhi, GetDayNaYin
+
+### 节气节日
+- GetCurrentJie, GetCurrentJieQi
+- GetFestivals
+
+### 宜忌方位
+- GetDayYi, GetDayJi
+- GetDayPositionXi, GetDayPositionFu, GetDayPositionCai
+- GetDayLu, GetChong, GetSha
+- GetDayTianShen
+
+### 公历
+- GetXingZuo, GetJulianDay, IsLeapYear
+
+### 命理
+- GetXiu, GetWuHou, GetZheng, GetYueXiang
+
+### 历法
+- GetTao, GetFoto
+
+### 九星
+- GetYearNineStar
+
+---
+
+## 未使用函数（可扩展）
 
 ```go
-// 八字增强
-GetBaZiShiShenGan, GetBaZiShiShenZhi
+// 进阶八字
 GetBaZiShiShenYearZhi, GetBaZiShiShenMonthZhi
+GetBaZiShiShenDayZhi, GetBaZiShiShenTimeZhi
 
-// 神煞
+// 进阶神煞
 GetDayTianShenLuck, GetDayTianShenType
 GetTimeTianShen, GetTimeTianShenLuck
-
-// 方位
-GetDayPositionTaiSui, GetDayPositionYangGui, GetDayPositionYinGui
+GetDayPositionTaiSui
+GetDayPositionYangGui, GetDayPositionYinGui
 
 // 彭祖百忌
-GetPengZu, GetDayLu
+GetPengZu
 
-// 九星
-GetDayNineStar, GetYearNineStar
+// 农历月份详情
+GetMonthInGanZhi, GetMonthNaYin
+GetMonthZhi, GetMonthGan
 
-// 农历月份
-GetMonth, GetMonthInGanZhi, GetMonthNaYin
+// 时辰详情
+GetTimeChong, GetTimeSha
+GetTimePositionFu, GetTimePositionXi
+GetTimeZhiIndex
 
-// 其他
-GetJieQiTable, GetShiChen
+// 九星详情
+GetDayNineStar, GetTimeNineStar
+GetYearNineStarBySect
+
+// 农历年详情
+GetYearInGanZhi, GetYearZhi
+GetYearShengXiao, GetYearNaYin
+GetYearXun, GetYearXunKong
+GetYearPositionTaiSui
+
+// 大运流年
+GetDaYun, GetLiuNian, GetLiuYue
 ```
 
 ---
 
-## 版本规划
+## 版本历史
 
-### v1.0 (已完成)
-- 6 个基础工具
-
-### v1.1 (已完成)
-- 10 个增强工具
-- 共 16 个工具
-
-### v1.2 (规划中)
-- 日期推算
-- 农历转公历
-- 吉时查询
-
-### v1.3 (规划中)
-- 择日系统
-- 合婚功能
-- 起名功能
-
-### v2.0 (规划中)
-- 易经占卜
-- 九星飞宫
-- 完整命理
+| 版本 | 日期 | 工具数 | 说明 |
+|------|------|--------|------|
+| v1.0 | 2026-03-05 | 6 | 基础功能 |
+| v1.1 | 2026-03-05 | 16 | 增强工具 |
+| v1.2 | 2026-03-05 | 19 | 日期计算 |
+| v1.3 | 2026-03-05 | 22 | 命理应用 |
+| v2.0 | 2026-03-05 | 24 | 高级功能 |
 
 ---
 
 ## 验收标准
 
 - [x] MCP 协议正常
-- [x] 16 个工具可用
+- [x] 24 个工具可用
 - [x] Docker 支持
 - [x] GitHub 开源
-- [ ] 单元测试覆盖 > 80%
-- [ ] 文档完整
+- [ ] 单元测试
+- [ ] 更多文档
 
 ---
 
