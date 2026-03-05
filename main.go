@@ -38,6 +38,10 @@ func main() {
 	registry.Register(tools.NameGeneratorTool)
 	registry.Register(tools.IChingDivinationTool)
 	registry.Register(tools.NineStarFlyingTool)
+	registry.Register(tools.AdvancedBaziTool)
+	registry.Register(tools.PengzuBaijiTool)
+	registry.Register(tools.FortunePeriodsTool)
+	registry.Register(tools.ShenShaTool)
 
 	// Create handler
 	handler := protocol.NewHandler()
