@@ -6,8 +6,10 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/example/lunar-mcp/internal/protocol"
+	"github.com/example/lunar-mcp/internal/session"
 	"github.com/example/lunar-mcp/internal/tools"
 )
 
@@ -92,10 +94,51 @@ func main() {
 		return map[string]string{"status": "pong"}, nil
 	})
 
-	// Health check endpoint
+	// Register tools/register method (dynamic tool)
+	handler.RegisterMethod("tools/register", func(params map[string]interface{}) (interface{}, error) {
+		name, _ := params["name"].(string)
+		description, _ := params["description"].(string)
+		inputSchema, _ := params["inputSchema"].(map[string]interface{})
+		
+		err := registry.RegisterDynamic(tools.DynamicToolRequest{
+			Name:        name,
+			Description: description,
+			InputSchema: inputSchema,
+			Handler: func(p map[string]interface{}) (interface{}, error) {
+				return map[string]string{"status": "dynamic tool called"}, nil
+			},
+		})
+		
+		if err != nil {
+			return nil, err
+		}
+		return map[string]string{"status": "registered", "tool": name}, nil
+	})
+
+	// Register tools/unregister method
+	handler.RegisterMethod("tools/unregister", func(params map[string]interface{}) (interface{}, error) {
+		name, _ := params["name"].(string)
+		removed := registry.Unregister(name)
+		return map[string]interface{}{"status": removed, "tool": name}, nil
+	})
+
+	// Register session management
+	sessionMgr := session.NewManager()
+
+	// Health check endpoint with metrics
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
+		json.NewEncoder(w).Encode(map[string]interface{}{
+			"status":   "ok",
+			"uptime":   time.Since(startTime).Seconds(),
+			"sessions": sessionMgr.Count(),
+		})
+	})
+
+	// Metrics endpoint
+	http.HandleFunc("/metrics", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(ServerMetrics.GetMetrics())
 	})
 
 	// RPC endpoint

@@ -67,3 +67,55 @@ func (r *Registry) GetListResult() ListToolsResult {
 	}
 	return ListToolsResult{Tools: tools}
 }
+
+// DynamicToolRequest represents a request to register a new tool
+type DynamicToolRequest struct {
+	Name        string                 `json:"name"`
+	Description string                 `json:"description"`
+	InputSchema map[string]interface{} `json:"inputSchema"`
+	Handler     func(params map[string]interface{}) (interface{}, error)
+}
+
+// RegisterDynamic registers a tool at runtime
+func (r *Registry) RegisterDynamic(req DynamicToolRequest) error {
+	if req.Name == "" {
+		return ErrToolNameRequired
+	}
+	if req.Handler == nil {
+		return ErrToolHandlerRequired
+	}
+
+	tool := &Tool{
+		Name:        req.Name,
+		Description: req.Description,
+		InputSchema: req.InputSchema,
+		Handler:     req.Handler,
+	}
+
+	r.tools[req.Name] = tool
+	return nil
+}
+
+// Unregister removes a tool at runtime
+func (r *Registry) Unregister(name string) bool {
+	if _, ok := r.tools[name]; ok {
+		delete(r.tools, name)
+		return true
+	}
+	return false
+}
+
+// ErrToolNameRequired error
+var ErrToolNameRequired = &ToolError{"tool name is required"}
+
+// ErrToolHandlerRequired error
+var ErrToolHandlerRequired = &ToolError{"tool handler is required"}
+
+// ToolError represents a tool error
+type ToolError struct {
+	Message string
+}
+
+func (e *ToolError) Error() string {
+	return e.Message
+}
